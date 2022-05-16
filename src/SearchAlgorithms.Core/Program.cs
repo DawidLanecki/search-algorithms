@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SearchAlgorithms.Core.Utils;
 using SearchAlgorithms.Core.Testing.Validators;
 using System.Security.Cryptography;
+using SearchAlgorithms.Core.Testing.Timers;
 
 namespace SearchAlgorithms.Core
 {
@@ -11,21 +12,18 @@ namespace SearchAlgorithms.Core
     {
         static void Main(string[] args)
         {
-            var currentlyCheckedAlgorithm = new KMPSearch();
-            var correctlyWorkingAlgorithm = new BuiltInSearch();
+            Action findingPrimeNumberAction = () => {
+                PrimeNumberUtils.FindNthPrimeNumber(4500);
+            };
 
-            string haystack = "oooo";
-            string needle = "oo";
-
-            Console.WriteLine(haystack);
-            Console.WriteLine(needle);
-
-            Console.WriteLine(currentlyCheckedAlgorithm.Name());
-            Array.ForEach(currentlyCheckedAlgorithm.Search(needle, haystack).ToArray(), Console.WriteLine);
-            Console.WriteLine(correctlyWorkingAlgorithm.Name());
-            Array.ForEach(correctlyWorkingAlgorithm.Search(needle, haystack).ToArray(), Console.WriteLine);
+            Action hashSearchAction = () =>
+            {
+                new HashSearch().Search("njkfbasbhja abbabbab", "a");
+            };
 
 
+            Console.WriteLine($"{new PrimeNumbersTimeMeasure(findingPrimeNumberAction).Measure()} jedn. referencyjnych");
+            Console.WriteLine($"{new PrimeNumbersTimeMeasure(hashSearchAction).Measure()} jedn. referencyjnych");
             Console.ReadKey();
         }
 
